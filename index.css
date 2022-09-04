@@ -1,0 +1,119 @@
+:root {
+    --color_1: rgb(11, 116, 196);
+    --color_2: rgb(230,0,0);
+    --color_3: rgb(255,166,77);
+    --color_4: rgb(149,0,179);
+    --color_5: rgb(0,204,0);
+    --color_6: rgb(255,255,0);
+
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-image: linear-gradient(135deg, #09203f 10%, #537895 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 200px;
+    height: 400px;
+    background-color: black;
+    margin: 1em;
+}
+
+.mini_grid{
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 20px;
+    width: 80px;
+    height: 80px;
+    background-color: black;
+}
+
+.grid div{
+    height: 20px;
+    width: 20px;
+    border: 1px solid blue;
+}
+
+.mini_grid div{
+    height: 20px;
+    width: 20px;
+    border: 1px solid blue;
+}
+
+.grid .bedrock {
+    height: 20px;
+    width: 20px;
+    border: none;
+}
+
+.grid .game_piece{
+    background-color: var(--color_1);
+    border: 1px solid white;
+}
+
+.mini_grid .game_piece {
+    background-color: var(--color_1);
+    border: 1px solid white;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#start_button {
+    width: 40%;
+    border-radius: 25px;
+    color: white;
+    background-color: #537895;
+}
+
+#endscore{
+    color: azure;
+}
+
+.blue{
+    background-color: var(--color_1);
+}
+
+.red{
+    background-color: var(--color_2);
+}
+
+.orange{
+    background-color: var(--color_3);
+}
+
+.purple{
+    background-color: var(--color_4);
+}
+
+.green{
+    background-color: var(--color_5);
+}
+
+.yellow{
+    background-color: var(--color_6);
+}
