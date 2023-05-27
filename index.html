@@ -8,45 +8,47 @@
         <title>Tetris</title>
     </head>
     <body>
-        
     
-
-    <div class="container">
-
+   <div id="gamebox">
         
+        <div class="highscore">
+            <h2>HIGHSCORE:</h2>
+            <div>
+                <ol class="names"></ol>
+                <ul class="scores"></ul>
+            </div>
+        </div>
         
-        <div class="main">
+        <div class="container">
+
+            <div class="main">
             <h2 id="endscore">Score: <span id="score">0</span></h2>
             <div class="grid"></div>
             <button id="start_button">Start</button>
+            </div>
+            <div class="mini_grid"></div>
+
         </div>
 
-        <div class="mini_grid">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            
-        </div>
-
+        <div class="congrats_box"></div>
     </div>
 
-    
+    <div class="overlay inactive"></div>
+    <div class="modal inactive">
+        <section class="modalTitle">
+            <h3>Enter your name for posterity!</h3>
+            
+        </section>
+        <section class="modalBody">
+            <p>Enter your name, Champion!</p>
+            <input type="text" maxlength="14" id="nameSpace">
+            <button id="enterNameButton">Done</button>
+        </section>
         
-    
-        <script src="new.js"></script>
-        <script src="script.js"></script>
+    </div>
+
+    <script src="game_pieces.js"></script>
+    <script src="script.js"></script>
+    <script src="highscore.js"></script>
     </body>
 </html>

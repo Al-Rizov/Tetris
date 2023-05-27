@@ -1,6 +1,3 @@
-const width = 10;
-const grid = document.querySelector('.grid');
-let squares;
 let score = 0;
 const score_display = document.getElementById('score');
 const endscore = document.getElementById('endscore');
@@ -8,86 +5,11 @@ const start_button = document.getElementById('start_button');
 let nextRandom = 0;
 let timerId;
 const displaySquares = document.querySelectorAll('.mini_grid div');
-const displayWidth = 4;
+
 let display_index = 0;
 let game_over = false;
 const colors = ['blue', 'red', 'orange', 'purple', 'green', 'yellow'];
 
-
-//Piece squares to be colored on the grid
-const next_piece = [
-    [1, displayWidth+1, displayWidth*2+1, 2],
-    [displayWidth+1, displayWidth+2, displayWidth*2+1, displayWidth*2+2],
-    [1, displayWidth+1, displayWidth*2+1, displayWidth*3+1],
-    [1, displayWidth, displayWidth+1, displayWidth+2],
-    [1, displayWidth+1, displayWidth+2, displayWidth*2+2],
-    [2, displayWidth+2, displayWidth+1, displayWidth*2+1]
-];
-
-const l_piece = [
-    [1, width+1, (width*2)+1, 2],
-    [width, width+1, width+2, (width*2)+2],
-    [1, width+1, (width*2)+1, width*2],
-    [width, width*2, (width*2)+1, (width*2)+2]
-];
-const square_piece = [
-    [0, width, 1, width+1],
-    [0, width, 1, width+1],
-    [0, width, 1, width+1],
-    [0, width, 1, width+1]
-];
-const column_piece = [
-   [1, width+1, (width*2)+1, (width*3)+1],
-   [width,width+1, width+2, width+3 ],
-   [1, width+1, (width*2)+1, (width*3)+1],
-   [width,width+1, width+2, width+3 ]
-];
-const t_piece = [
-    [1, width, width+1, width+2],
-    [1, width+1, width+2, (width*2)+1],
-    [width, width+1, width+2, (width*2)+1],
-    [1, width, width+1, (width*2)+1]
-];
-const s_piece = [
-    [0, width, width+1, (width*2)+1],
-    [width+1, width+2,width*2,(width*2)+1],
-    [0,width,width+1,(width*2)+1],
-    [width+1, width+2,width*2,(width*2)+1]
-];
-
-const z_piece = [
-    [1, width+1, width, width*2],
-    [0, 1, width+1, width+2],
-    [1, width+1, width, width*2],
-    [0, 1, width+1, width+2]
-]
-
-
-const game_pieces = [l_piece, square_piece, column_piece, t_piece, s_piece, z_piece];
-
-let current_position = 4;
-let current_rotation = 0;
-let new_piece = Math.floor(Math.random()*6);
-let current = game_pieces[new_piece][0];
-
-createBlocks(grid, 199);
-
-function createBlocks(el, num) {for(let i=0; i<=num; i++) {
-    const block = document.createElement('div');
-    el.appendChild(block);
-    
-    }
-
-    for(let i=0; i<=9; i++) {
-        const block = document.createElement('div');
-        block.classList.add('bedrock')
-        grid.appendChild(block);
-        
-        }
-        squares = Array.from(document.querySelectorAll('.grid div'));
-    
-}
-    
 
 function draw() {
     current.forEach(el => {
@@ -100,7 +22,7 @@ function draw() {
 function remove() {
     current.forEach(el => {
         squares[el + current_position].classList.remove('game_piece')
-    })
+    });
 }
 
 
@@ -133,14 +55,14 @@ function stopFall() {
     {
         current.forEach(el => squares[current_position + el].classList.add('bedrock'));
         
-        
         new_piece = nextRandom;
         nextRandom = Math.floor(Math.random()*6);
         current = game_pieces[new_piece][current_rotation];
         current_position = 4;
-        draw();
+
         displayShape();
         scorekeeping();
+        draw();
         gameOver();
     }
 }
@@ -153,9 +75,9 @@ function moveLeft() {
         if(!left_edge) {current_position -= 1;}
         if(current.some(index => squares[current_position + index].classList.contains('bedrock')))
         {
-            current_position ++
+            current_position ++;
         }
-
+        
         draw();
     }
 }
@@ -163,10 +85,10 @@ function moveLeft() {
 function moveRight() {
     if(!game_over) {
         remove();
-        const right_edge = current.some(index => (current_position + index) % width === width -1)
+        const right_edge = current.some(index => (current_position + index) % width === width -1);
         
         if(!right_edge) {current_position +=1}
-        if(current.some(index => squares[current_position + index].classList.contains('taken'))) {
+        if(current.some(index => squares[current_position + index].classList.contains('bedrock'))) {
         current_position -=1
         }
         
@@ -178,13 +100,13 @@ function rotate() {
     if(!game_over) {
         remove();
         
+        const left_edge = current.some(index => (current_position + index) % width === 0);
+        const right_edge = current.some(index => (current_position + index) % width === width -1);
         
-        current_rotation ++;
+        if(!left_edge&&!right_edge){current_rotation ++;}
         if(current_rotation === 4) {
             current_rotation = 0;
         }
-
-        
 
         current = game_pieces[new_piece][current_rotation];
         draw();
@@ -198,29 +120,44 @@ function displayShape() {
 }
 
 function scorekeeping() {
+    
+    let score_multiplier = 0;
+    
     for(let i=0; i<199; i+=width) {
        const row = [i, i+1, i+2, i+3, i+4, i+5, i+6, i+7, i+8, i+9];
 
        if(row.every(el => squares[el].classList.contains('bedrock', 'gamepiece'))) {
-        score += 10;
-        score_display.innerHTML = score;
-        row.forEach(el => {
-            squares[el].classList.remove('bedrock', 'game_piece')
-        })
-        const squares_removed = squares.splice(i, width);
+        
+        score_multiplier++;
+        row.forEach(el => {squares[el].classList.remove('bedrock', 'game_piece');});
+
+        const squares_removed = squares.splice(i, width); 
         squares = squares_removed.concat(squares);
         squares.forEach(el => grid.appendChild(el));
        }
     }
+    
+    switch(score_multiplier) {
+        case 1: score += 10;
+        break;
+        case 2: score += 30;
+        break;
+        case 3: score += 50;
+        break;
+        case 4: score += 80;
+        break;
+    }
+    
+    score_display.innerHTML = score;
 }
 
 function gameOver() {
     if(current.some(el => squares[current_position + el].classList.contains('bedrock'))) {
-        endscore.innerHTML = 'GAME OVER. Your scored ' + score + ' points!';
+        endscore.innerHTML = 'GAME OVER.'+ '<br>' + 'Your scored ' + score + ' points!';
         
         clearInterval(timerId);
         game_over = true;
-        console.log('game over');
+        checkScore();
     }
 }
 
